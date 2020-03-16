@@ -53,12 +53,14 @@ class Normalizer(object):
         for one_speaker in self.all_speaker:
 
             p = os.path.join(self.folderpath, '*.npz')
+            print(p)
             try:
                 stat_filepath = [fn for fn in glob.glob(p) if one_speaker in fn][0]
             except:
                 raise Exception('====no match files!====')
             print(f'found stat file: {stat_filepath}')
             t = np.load(stat_filepath)
+            print([x for x in t.f])
             d_temp = t.f.arr_0.item()
             # print(d_temp.keys())
 
@@ -155,8 +157,10 @@ class GenerateStatics(object):
                 continue
             for one_file in arr01:
                 t = np.load(os.path.join(self.folder, one_file))
-                d = t.f.arr_0.item()
-                f0_ = np.reshape(d['f0'], [-1, 1])
+                import pdb
+                #pdb.set_trace()
+                d = t.f#.arr_0.item()
+                f0_ = np.reshape(d.f0, [-1, 1])
                 # print(f'f0 shape: {f0_.shape}')
                 f0s.append(f0_)
             log_f0s_mean, log_f0s_std = self.logf0_statistics(f0s)
